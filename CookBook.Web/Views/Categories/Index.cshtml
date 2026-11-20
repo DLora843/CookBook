@@ -1,0 +1,42 @@
+﻿@model IEnumerable<CookBook.Data.Models.Category>
+
+@{
+    ViewData["Title"] = "Категории";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Категории рецепти</h1>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            Все още няма добавени категории.
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var category in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">@category.Name</h5>
+
+                            <p class="card-text">
+                                @(category.Description ?? "Няма описание.")
+                            </p>
+
+                            <a asp-controller="Categories"
+                               asp-action="Details"
+                               asp-route-id="@category.Id"
+                               class="btn btn-primary">
+                                Виж категорията
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

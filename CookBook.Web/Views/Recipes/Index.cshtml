@@ -1,0 +1,142 @@
+﻿@model IEnumerable<CookBook.Data.Models.Recipe>
+
+@{
+    ViewData["Title"] = "Всички рецепти";
+    var categories = ViewBag.Categories as IEnumerable<CookBook.Data.Models.Category>;
+    int? selectedCategoryId = ViewBag.CategoryId == null
+        ? null
+        : (int?)ViewBag.CategoryId;
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Всички рецепти</h1>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+            @TempData["SuccessMessage"]
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Затвори">
+            </button>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">
+            @TempData["ErrorMessage"]
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Затвори">
+            </button>
+        </div>
+    }
+
+    <!-- Търсене и филтриране -->
+    <form asp-controller="Recipes"
+          asp-action="Index"
+          method="get"
+          class="row g-2 mb-4">
+
+        <div class="col-md-5">
+            <input type="text"
+                   name="searchTerm"
+                   value="@ViewBag.SearchTerm"
+                   class="form-control"
+                   placeholder="Търси рецепта по име..." />
+        </div>
+
+        <div class="col-md-4">
+            <select name="categoryId" class="form-select">
+                <option value="">-- Всички категории --</option>
+
+                @if (categories != null)
+                {
+                    foreach (var category in categories)
+                    {
+                        if (selectedCategoryId == category.Id)
+                        {
+                            <option value="@category.Id" selected>
+                                @category.Name
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@category.Id">
+                                @category.Name
+                            </option>
+                        }
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-primary w-100">
+                Търси
+            </button>
+        </div>
+
+        <div class="col-md-2">
+            <a asp-controller="Recipes"
+               asp-action="Index"
+               class="btn btn-secondary w-100">
+                Изчисти
+            </a>
+        </div>
+    </form>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            @if (!string.IsNullOrWhiteSpace(ViewBag.SearchTerm as string))
+            {
+                <span>Няма намерени рецепти за „@ViewBag.SearchTerm“.</span>
+            }
+            else if (selectedCategoryId.HasValue)
+            {
+                <span>Няма намерени рецепти в избраната категория.</span>
+            }
+            else
+            {
+                <span>Все още няма добавени рецепти.</span>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var recipe in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+
+                        @if (!string.IsNullOrWhiteSpace(recipe.ImageUrl))
+                        {
+                            <img src="@recipe.ImageUrl"
+                                 class="card-img-top"
+                                 alt="@recipe.Title" />
+                        }
+
+                        <div class="card-body">
+                            <h5 class="card-title">@recipe.Title</h5>
+
+                            <p class="card-text">@recipe.Description</p>
+
+                            <a asp-controller="Recipes"
+                               asp-action="Details"
+                               asp-route-id="@recipe.Id"
+                               class="btn btn-primary">
+                                Виж рецептата
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

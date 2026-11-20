@@ -1,0 +1,156 @@
+﻿@model CookBook.Data.Models.Recipe
+
+@{
+    ViewData["Title"] = Model.Title;
+    var comments = ViewBag.Comments as IEnumerable<CookBook.Data.Models.Comment>;
+    var ratings = ViewBag.Ratings as IEnumerable<CookBook.Data.Models.Rating>;
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <h1 class="mb-3">@Model.Title</h1>
+
+            @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+            {
+                <img src="@Model.ImageUrl"
+                     class="img-fluid rounded mb-4"
+                     alt="@Model.Title" />
+            }
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4>Описание</h4>
+                    <p>@Model.Description</p>
+
+                    <hr />
+
+                    <h4>Начин на приготвяне</h4>
+                    <p>@Model.Instructions</p>
+
+                    <hr />
+
+                    <p>
+                        <strong>Време за приготвяне:</strong>
+                        @Model.PreparationTimeMinutes минути
+                    </p>
+
+                    <p>
+                        <strong>Порции:</strong>
+                        @Model.Servings
+                    </p>
+
+                    <p>
+                        <strong>Категория:</strong>
+                        @(Model.Category?.Name ?? "Няма категория")
+                    </p>
+
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <div class="d-flex flex-wrap gap-2 mt-3">
+
+                            <a asp-controller="Recipes"
+                               asp-action="Edit"
+                               asp-route-id="@Model.Id"
+                               class="btn btn-primary">
+                                ✏ Редактирай рецептата
+                            </a>
+
+                            <form asp-controller="Recipes"
+                                  asp-action="Delete"
+                                  asp-route-id="@Model.Id"
+                                  method="post"
+                                  onsubmit="return confirm('Сигурни ли сте, че искате да изтриете тази рецепта?');">
+
+                                <button type="submit" class="btn btn-danger">
+                                    🗑 Изтрий рецептата
+                                </button>
+                            </form>
+
+                            <form asp-controller="Favorites"
+                                  asp-action="Add"
+                                  asp-route-id="@Model.Id"
+                                  method="post">
+
+                                <button type="submit" class="btn btn-outline-danger">
+                                    ♥ Добави в любими
+                                </button>
+                            </form>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted mt-3">
+                            Влез в профила си, за да редактираш рецепти
+                            или да добавяш рецепти в любими.
+                        </p>
+                    }
+                </div>
+            </div>
+
+            <hr />
+
+            <h3>Коментари</h3>
+
+            <a asp-controller="Comments"
+               asp-action="Create"
+               asp-route-recipeId="@Model.Id"
+               class="btn btn-primary mb-3">
+                Добави коментар
+            </a>
+
+            @if (comments == null || !comments.Any())
+            {
+                <p class="text-muted">Все още няма коментари.</p>
+            }
+            else
+            {
+                @foreach (var comment in comments)
+                {
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <p>@comment.Content</p>
+                            <small class="text-muted">
+                                @comment.CreatedOn.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+                            </small>
+                        </div>
+                    </div>
+                }
+            }
+
+            <hr />
+
+            <h3>Оценки</h3>
+
+            <a asp-controller="Ratings"
+               asp-action="Create"
+               asp-route-recipeId="@Model.Id"
+               class="btn btn-warning mb-3">
+                Оцени рецептата
+            </a>
+
+            @if (ratings == null || !ratings.Any())
+            {
+                <p class="text-muted">Все още няма оценки.</p>
+            }
+            else
+            {
+                @foreach (var rating in ratings)
+                {
+                    <div class="mb-2">
+                        <span class="text-warning">
+                            @for (int i = 0; i < rating.Value; i++)
+                            {
+                                <span>★</span>
+                            }
+                        </span>
+                        <span class="text-muted">
+                            @rating.CreatedOn.ToLocalTime().ToString("dd.MM.yyyy")
+                        </span>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

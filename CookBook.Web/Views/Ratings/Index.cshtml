@@ -1,0 +1,42 @@
+﻿@model IEnumerable<CookBook.Web.ViewModels.RatingViewModel>
+
+@{
+    ViewData["Title"] = "Оценки";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Оценки на рецептата</h1>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            Все още няма оценки за тази рецепта.
+        </div>
+    }
+    else
+    {
+        <div class="list-group">
+            @foreach (var rating in Model)
+            {
+                <div class="list-group-item mb-2">
+                    <div class="d-flex justify-content-between">
+                        <strong>
+                            @(rating.UserName ?? "Потребител")
+                        </strong>
+
+                        <span class="text-warning">
+                            @for (int i = 0; i < rating.Value; i++)
+                            {
+                                <span>★</span>
+                            }
+                        </span>
+                    </div>
+
+                    <small class="text-muted">
+                        @rating.CreatedOn.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+                    </small>
+                </div>
+            }
+        </div>
+    }
+</div>

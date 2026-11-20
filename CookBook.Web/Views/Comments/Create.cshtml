@@ -1,0 +1,59 @@
+﻿@model CookBook.Web.ViewModels.CommentViewModel
+
+@{
+    ViewData["Title"] = "Добави коментар";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="mb-4">Добави коментар</h2>
+
+                    <form asp-controller="Comments"
+                          asp-action="Create"
+                          method="post">
+
+                        <input type="hidden"
+                               asp-for="RecipeId" />
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Content"
+                                   class="form-label">
+                                Твоят коментар
+                            </label>
+
+                            <textarea asp-for="Content"
+                                      class="form-control"
+                                      rows="5"
+                                      placeholder="Напиши своя коментар..."></textarea>
+
+                            <span asp-validation-for="Content"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-primary">
+                            Публикувай коментара
+                        </button>
+
+                        <a asp-controller="Recipes"
+                           asp-action="Details"
+                           asp-route-id="@Model.RecipeId"
+                           class="btn btn-secondary">
+                            Назад
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

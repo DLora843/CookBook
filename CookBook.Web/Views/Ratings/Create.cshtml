@@ -1,0 +1,64 @@
+﻿@model CookBook.Web.ViewModels.RatingViewModel
+
+@{
+    ViewData["Title"] = "Оцени рецептата";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="mb-4">Оцени рецептата</h2>
+
+                    <form asp-controller="Ratings"
+                          asp-action="Create"
+                          method="post">
+
+                        <input type="hidden"
+                               asp-for="RecipeId" />
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Value"
+                                   class="form-label">
+                                Твоята оценка
+                            </label>
+
+                            <select asp-for="Value"
+                                    class="form-select">
+                                <option value="">Избери оценка</option>
+                                <option value="1">★☆☆☆☆ – 1 звезда</option>
+                                <option value="2">★★☆☆☆ – 2 звезди</option>
+                                <option value="3">★★★☆☆ – 3 звезди</option>
+                                <option value="4">★★★★☆ – 4 звезди</option>
+                                <option value="5">★★★★★ – 5 звезди</option>
+                            </select>
+
+                            <span asp-validation-for="Value"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-primary">
+                            Запази оценката
+                        </button>
+
+                        <a asp-controller="Recipes"
+                           asp-action="Details"
+                           asp-route-id="@Model.RecipeId"
+                           class="btn btn-secondary">
+                            Назад
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

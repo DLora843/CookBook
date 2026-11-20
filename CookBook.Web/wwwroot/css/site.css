@@ -1,0 +1,199 @@
+
+:root {
+    --primary: #159B83;
+    --primary-dark: #107663;
+    --secondary: #70B96B;
+    --accent: #FFB88C;
+    --background: #E8F7EF;
+    --surface: #FFFFFF;
+    --text: #29483D;
+    --muted: #668477;
+    --border: #CDE9DB;
+}
+
+html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+body {
+    margin: 0 0 60px;
+    background-color: var(--background);
+    color: var(--text);
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Меню */
+.navbar {
+    background-color: var(--primary) !important;
+    padding: 14px 0;
+}
+
+.navbar-brand {
+    color: white !important;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar .nav-link {
+    color: #FFFFFF !important;
+    transition: 0.2s;
+}
+
+    .navbar .nav-link:hover {
+        color: #FFB88C !important;
+    }
+
+/* Заглавия */
+h1, h2, h3, h4, h5 {
+    color: #167B68;
+    font-weight: 700;
+}
+
+/* Карти */
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(21, 155, 131, 0.08);
+    transition: 0.25s ease;
+}
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 22px rgba(21, 155, 131, 0.16);
+    }
+
+.card-title {
+    color: var(--primary);
+}
+
+.card-body {
+    padding: 22px;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+/* Бутони */
+.btn-primary {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+    .btn-primary:hover {
+        background: var(--primary-dark);
+        border-color: var(--primary-dark);
+    }
+
+.btn-success {
+    background: var(--secondary);
+    border-color: var(--secondary);
+    color: white;
+}
+
+    .btn-success:hover {
+        background: #579E52;
+        border-color: #579E52;
+    }
+
+.btn-warning {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #653C2D;
+}
+
+.btn-danger {
+    background: #E36B6B;
+    border-color: #E36B6B;
+}
+
+.btn-outline-danger {
+    color: #D85C69;
+    border-color: #D85C69;
+}
+
+    .btn-outline-danger:hover {
+        background: #D85C69;
+        color: white;
+    }
+
+/* Полета */
+.form-control,
+.form-select {
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: white;
+    color: var(--text);
+}
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 0.2rem rgba(21, 155, 131, 0.18);
+    }
+
+    /* Фокус */
+    .btn:focus,
+    .btn:active:focus,
+    .btn-link.nav-link:focus,
+    .form-control:focus,
+    .form-check-input:focus {
+        box-shadow: 0 0 0 0.15rem white, 0 0 0 0.3rem var(--primary);
+    }
+
+/* Линкове */
+a {
+    color: var(--primary);
+}
+
+    a:hover {
+        color: var(--primary-dark);
+    }
+
+/* Съобщения */
+.alert-success {
+    background: #DDF3DF;
+    border-color: #B9E2BD;
+    color: #28663B;
+}
+
+.alert-info {
+    background: #D9F0F2;
+    border-color: #B7E0E4;
+    color: #24545A;
+}
+
+/* Таблици */
+.table {
+    background: white;
+    color: var(--text);
+}
+
+    .table thead th {
+        background: var(--primary);
+        color: white;
+    }
+
+/* Долен колонтитул */
+footer {
+    background: #D9F0E4 !important;
+    color: var(--muted) !important;
+    border-color: var(--border) !important;
+}
+
+    footer p {
+        margin-bottom: 5px;
+    }

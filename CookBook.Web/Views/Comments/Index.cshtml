@@ -1,0 +1,33 @@
+﻿@model IEnumerable<CookBook.Web.ViewModels.CommentViewModel>
+
+@{
+    ViewData["Title"] = "Коментари";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Коментари</h1>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            Все още няма коментари към тази рецепта.
+        </div>
+    }
+    else
+    {
+        @foreach (var comment in Model)
+        {
+            <div class="card mb-3">
+                <div class="card-body">
+                    <p class="card-text">@comment.Content</p>
+
+                    <div class="text-muted small">
+                        Автор: @(comment.UserName ?? "Потребител")
+                        <br />
+                        Дата: @comment.CreatedOn.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

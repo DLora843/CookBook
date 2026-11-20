@@ -1,0 +1,68 @@
+﻿@model CookBook.Data.Models.Category
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+
+            <h1 class="mb-3">@Model.Name</h1>
+
+            <p class="lead">
+                @(Model.Description ?? "Няма описание за тази категория.")
+            </p>
+
+            <hr />
+
+            <h3 class="mb-4">Рецепти в категорията</h3>
+
+            @if (Model.Recipes == null || !Model.Recipes.Any(r => !r.IsDeleted))
+            {
+                <div class="alert alert-info">
+                    Все още няма рецепти в тази категория.
+                </div>
+            }
+            else
+            {
+                <div class="row">
+                    @foreach (var recipe in Model.Recipes.Where(r => !r.IsDeleted))
+                    {
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                @if (!string.IsNullOrWhiteSpace(recipe.ImageUrl))
+                                {
+                                    <img src="@recipe.ImageUrl"
+                                         class="card-img-top"
+                                         alt="@recipe.Title" />
+                                }
+
+                                <div class="card-body">
+                                    <h5 class="card-title">@recipe.Title</h5>
+
+                                    <p class="card-text">@recipe.Description</p>
+
+                                    <a asp-controller="Recipes"
+                                       asp-action="Details"
+                                       asp-route-id="@recipe.Id"
+                                       class="btn btn-primary">
+                                        Виж рецептата
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+
+            <a asp-controller="Categories"
+               asp-action="Index"
+               class="btn btn-secondary mt-3">
+                Обратно към категориите
+            </a>
+
+        </div>
+    </div>
+</div>
+

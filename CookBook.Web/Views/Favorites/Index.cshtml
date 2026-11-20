@@ -1,0 +1,59 @@
+﻿@model IEnumerable<CookBook.Web.ViewModels.FavoriteViewModel>
+
+@{
+    ViewData["Title"] = "Любими рецепти";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Моите любими рецепти</h1>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            Все още нямаш добавени любими рецепти.
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var favorite in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        @if (!string.IsNullOrWhiteSpace(favorite.ImageUrl))
+                        {
+                            <img src="@favorite.ImageUrl"
+                                 class="card-img-top"
+                                 alt="@favorite.RecipeTitle" />
+                        }
+
+                        <div class="card-body">
+                            <h5 class="card-title">@favorite.RecipeTitle</h5>
+
+                            <a asp-controller="Recipes"
+                               asp-action="Details"
+                               asp-route-id="@favorite.RecipeId"
+                               class="btn btn-primary">
+                                Виж рецептата
+                            </a>
+
+                            <form asp-controller="Favorites"
+                                  asp-action="Remove"
+                                  method="post"
+                                  class="mt-2">
+
+                                <input type="hidden"
+                                       name="id"
+                                       value="@favorite.RecipeId" />
+
+                                <button type="submit" class="btn btn-danger">
+                                    Премахни от любими
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
